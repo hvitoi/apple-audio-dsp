@@ -1,5 +1,7 @@
 pkgname=apple-audio-dsp
-pkgver=r55.0972911
+_speakerpkgver=speakers-v0.1.2
+_micpkgver=mic-v0.2.0
+pkgver=289bb3d
 pkgrel=1
 pkgdesc='Apple T2 MacbookPro16,1 speaker and microphone configuration'
 arch=('any')
@@ -17,25 +19,19 @@ depends=(
 makedepends=('git')
 optdepends=()
 source=(
-  "master::git+$url.git"
-  "microphone::git+$url.git#branch=mic"
-  "speaker::git+$url.git#branch=speakers_161"
+  "$url/archive/refs/tags/$_speakerpkgver.tar.gz"
+  "$url/archive/refs/tags/$_micpkgver.tar.gz"
 )
-md5sums=('SKIP' 'SKIP' 'SKIP')
+md5sums=('SKIP' 'SKIP')
 
 pkgver() {
-  cd master
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-}
-
-prepare() {
-  sed -i 's/\/usr\/local\/lib\/ladspa\/librnnoise_ladspa.so/\/usr\/lib\/ladspa\/librnnoise_ladspa.so/g' $srcdir/*/config/*.conf
+  echo $_speakerpkgver$_micpkgver | sha1sum | cut -c 1-7
 }
 
 package() {
   mkdir -p $pkgdir/etc/pipewire/pipewire.conf.d
   mkdir -p $pkgdir/usr/share/pipewire/devices/apple
-  cp $srcdir/microphone/config/*.conf $pkgdir/etc/pipewire/pipewire.conf.d
-  cp $srcdir/speaker/config/*.conf $pkgdir/etc/pipewire/pipewire.conf.d
-  cp $srcdir/speaker/firs/*.wav $pkgdir/usr/share/pipewire/devices/apple
+  cp $srcdir/*$_speakerpkgver*/config/*.conf $pkgdir/etc/pipewire/pipewire.conf.d
+  cp $srcdir/*$_speakerpkgver*/firs/*.wav $pkgdir/usr/share/pipewire/devices/apple
+  cp $srcdir/*$_micpkgver*/config/*.conf $pkgdir/etc/pipewire/pipewire.conf.d
 }
