@@ -1,7 +1,7 @@
 pkgname=apple-audio-dsp
-_speakerpkgver=speakers-v0.1.4
+_speakerpkgver=speakers-v0.2.0-1
 _micpkgver=mic-v0.3.0
-pkgver=592e582
+pkgver=141c47c
 pkgrel=1
 pkgdesc='Apple T2 MacbookPro16,1 speaker and microphone configuration'
 arch=('any')
