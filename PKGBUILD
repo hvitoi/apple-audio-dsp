@@ -13,7 +13,6 @@ depends=(
   'calf'
   'lsp-plugins'
   # microphone
-  'noise-suppression-for-voice'
   'swh-plugins'
 )
 makedepends=('git')
